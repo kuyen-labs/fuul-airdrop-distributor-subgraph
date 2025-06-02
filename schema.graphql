@@ -1,0 +1,66 @@
+type NativeFeeUpdated @entity(immutable: true) {
+  id: Bytes!
+  value: BigInt! # uint256
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type FeeCollectorUpdated @entity(immutable: true) {
+  id: Bytes!
+  newCollector: Bytes!
+  blockNumber: BigInt!
+  blockTimestamp: BigInt!
+  transactionHash: Bytes!
+}
+
+type Budget @entity {
+  id: ID!
+  owner: Project!
+  currency: Bytes!
+  amount: BigInt!
+  claims: Bigint!
+  amountClaimed: Bigint!
+  chainId: Int!
+}
+
+type Project @entity {
+  id: ID!
+  airdropId: BigInt!
+  deployedAddress: Bytes!
+  merkleRoot: Bytes!
+  nativeFeeAmount: BigInt!
+  isSignatureRequired: Boolean!
+  budgets: [Budget!] @derivedFrom(field: "owner")
+  userBalances: [UserBalance!] @derivedFrom(field: "project")
+  members: [ProjectMember!] @derivedFrom(field: "project")
+  verifiers: [ProjectVerifier!] @derivedFrom(field: "project")
+}
+
+type UserBalance @entity {
+  id: ID!
+  owner: User!
+  project: Project!
+  currency: Bytes!
+  claimed: BigInt!
+}
+
+type User @entity {
+  id: ID!
+  address: Bytes!
+  balances: [UserBalance!] @derivedFrom(field: "owner")
+}
+
+type ProjectMember @entity {
+  id: ID!
+  project: Project!
+  address: Bytes!
+  role: String!
+}
+
+type ProjectVerifier @entity {
+  id: ID!
+  project: Project!
+  address: Bytes!
+  role: String!
+}

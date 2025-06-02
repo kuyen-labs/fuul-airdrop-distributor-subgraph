@@ -1,0 +1,43 @@
+{
+  "name": "fuulfactory",
+  "license": "UNLICENSED",
+  "scripts": {
+    "codegen": "graph codegen",
+    "build:mumbai": "graph build --network mumbai --network-file ./networks.json",
+    "build:goerli": "graph build --network goerli --network-file ./networks.json",
+    "build:polygon": "graph build --network matic --network-file ./networks.json",
+    "build:base": "graph build --network base --network-file ./networks.json",
+    "build:optimism": "graph build --network optimism --network-file ./networks.json",
+    "build:arbitrum": "graph build --network arbitrum-one --network-file ./networks.json",
+    "build:bsc": "graph build --network bsc --network-file ./networks.json",
+    "build:base-sepolia": "graph build --network base-sepolia --network-file ./networks.json",
+    "build:zksync-era": "graph build --network zksync-era --network-file ./networks.json",
+    "build:mode": "graph build --network mode-mainnet --network-file ./networks.json",
+    "build:abstract": "graph build --network abstract-mainnet --network-file ./networks.json",
+    "build:monad-testnet": "graph build --network monad-testnet --network-file ./networks.json",
+    "graph:auth": "graph auth --product hosted-service",
+    "deploy:mumbai": "npm run build:mumbai && graph deploy --product hosted-service fuul-protocol/mumbai",
+    "deploy:goerli": "npm run build:goerli && graph deploy --product hosted-service fuul-protocol/goerli",
+    "deploy:polygon": "npm run build:polygon && graph deploy --product hosted-service fuul-protocol/polygon",
+    "deploy:base": "npm run build:base && graph deploy --product hosted-service fuul-protocol/base",
+    "deploy:optimism": "npm run build:optimism && graph deploy --product hosted-service fuul-protocol/optimism",
+    "deploy:arbitrum": "npm run build:arbitrum && graph deploy --product hosted-service fuul-protocol/arbitrum",
+    "deploy:bsc": "npm run build:bsc && graph deploy --studio fuul-protocol-bsc",
+    "deploy:base-sepolia": "npm run build:base-sepolia && graph deploy --studio fuul-protocol-base-sepolia",
+    "deploy:zksync-era": "npm run build:zksync-era && graph deploy --studio fuul-protocol-zksync-era",
+    "deploy:mode": "npm run build:mode && graph deploy --studio fuul-protocol-mode",
+    "deploy:abstract": "npm run build:abstract && graph deploy abstract --node https://subgraphs.alchemy.com/api/subgraphs/deploy --ipfs https://ipfs.satsuma.xyz",
+    "deploy:monad-testnet": "npm run build:monad-testnet && graph deploy monad-testnet --node https://subgraphs.alchemy.com/api/subgraphs/deploy --ipfs https://ipfs.satsuma.xyz",
+    "create-local": "graph create --node http://localhost:8020/ fuulfactory",
+    "remove-local": "graph remove --node http://localhost:8020/ fuulfactory",
+    "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 fuulfactory",
+    "test": "graph test"
+  },
+  "dependencies": {
+    "@graphprotocol/graph-cli": "0.67.3",
+    "@graphprotocol/graph-ts": "0.32.0"
+  },
+  "devDependencies": {
+    "matchstick-as": "0.5.0"
+  }
+}
