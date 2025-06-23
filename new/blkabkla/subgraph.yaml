@@ -1,0 +1,65 @@
+specVersion: 1.0.0
+indexerHints:
+  prune: auto
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: FuulAirdropDistributor
+    network: kaia-testnet
+    source:
+      address: "0xE3BF80B33D2abA9C798f040939A722DdA7FbE520"
+      abi: FuulAirdropDistributor
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Claimed
+        - ClaimingWithoutStakingPercentageFeeUpdated
+        - MerkleRootUpdated
+        - MinimumTokenAmountForFeeUpdated
+        - NativeFeeAmountUpdated
+        - Paused
+        - RoleAdminChanged
+        - RoleGranted
+        - RoleRevoked
+        - SignatureVerificationDisabled
+        - SignatureVerificationEnabled
+        - StakingContractUpdated
+        - TokensRemoved
+        - Unpaused
+      abis:
+        - name: FuulAirdropDistributor
+          file: ./abis/FuulAirdropDistributor.json
+      eventHandlers:
+        - event: Claimed(indexed address,address,uint256,uint256,uint8)
+          handler: handleClaimed
+        - event: ClaimingWithoutStakingPercentageFeeUpdated(uint256)
+          handler: handleClaimingWithoutStakingPercentageFeeUpdated
+        - event: MerkleRootUpdated(bytes32)
+          handler: handleMerkleRootUpdated
+        - event: MinimumTokenAmountForFeeUpdated(uint256)
+          handler: handleMinimumTokenAmountForFeeUpdated
+        - event: NativeFeeAmountUpdated(uint256)
+          handler: handleNativeFeeAmountUpdated
+        - event: Paused(address)
+          handler: handlePaused
+        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
+          handler: handleRoleAdminChanged
+        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleGranted
+        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleRevoked
+        - event: SignatureVerificationDisabled()
+          handler: handleSignatureVerificationDisabled
+        - event: SignatureVerificationEnabled()
+          handler: handleSignatureVerificationEnabled
+        - event: StakingContractUpdated(address)
+          handler: handleStakingContractUpdated
+        - event: TokensRemoved(indexed address,indexed uint256,indexed address)
+          handler: handleTokensRemoved
+        - event: Unpaused(address)
+          handler: handleUnpaused
+      file: ./src/fuul-airdrop-distributor.ts
