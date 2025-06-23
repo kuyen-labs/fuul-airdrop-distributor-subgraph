@@ -23,18 +23,26 @@ describe("Describe entity assertions", () => {
     )
     let merkleRoot = Bytes.fromI32(1234567890)
     let nativeFeeAmount = BigInt.fromI32(234)
-    let isSignatureRequired = "boolean Not implemented"
+    let currency = Address.fromString(
+      "0x0000000000000000000000000000000000000001"
+    )
     let verifier = Address.fromString(
       "0x0000000000000000000000000000000000000001"
     )
+    let stakingContract = Address.fromString(
+      "0x0000000000000000000000000000000000000001"
+    )
+    let claimingWithoutStakingPercentageFee = BigInt.fromI32(234)
     let newAirdropDistributorCreatedEvent =
       createAirdropDistributorCreatedEvent(
         contractId,
         deployedAddress,
         merkleRoot,
         nativeFeeAmount,
-        isSignatureRequired,
-        verifier
+        currency,
+        verifier,
+        stakingContract,
+        claimingWithoutStakingPercentageFee
       )
     handleAirdropDistributorCreated(newAirdropDistributorCreatedEvent)
   })
@@ -77,14 +85,26 @@ describe("Describe entity assertions", () => {
     assert.fieldEquals(
       "AirdropDistributorCreated",
       "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
-      "isSignatureRequired",
-      "boolean Not implemented"
+      "currency",
+      "0x0000000000000000000000000000000000000001"
     )
     assert.fieldEquals(
       "AirdropDistributorCreated",
       "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
       "verifier",
       "0x0000000000000000000000000000000000000001"
+    )
+    assert.fieldEquals(
+      "AirdropDistributorCreated",
+      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
+      "stakingContract",
+      "0x0000000000000000000000000000000000000001"
+    )
+    assert.fieldEquals(
+      "AirdropDistributorCreated",
+      "0xa16081f360e3847006db660bae1c6d1b2e17ec2a-1",
+      "claimingWithoutStakingPercentageFee",
+      "234"
     )
 
     // More assert options:

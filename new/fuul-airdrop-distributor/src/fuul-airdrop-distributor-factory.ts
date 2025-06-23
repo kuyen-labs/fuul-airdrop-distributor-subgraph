@@ -1,18 +1,18 @@
 import {
   AirdropDistributorCreated as AirdropDistributorCreatedEvent,
   FeeCollectorUpdated as FeeCollectorUpdatedEvent,
+  NativeFeeAmountUpdated as NativeFeeAmountUpdatedEvent,
   RoleAdminChanged as RoleAdminChangedEvent,
   RoleGranted as RoleGrantedEvent,
-  RoleRevoked as RoleRevokedEvent,
-  nativeFeeAmountUpdated as nativeFeeAmountUpdatedEvent
+  RoleRevoked as RoleRevokedEvent
 } from "../generated/FuulAirdropDistributorFactory/FuulAirdropDistributorFactory"
 import {
   AirdropDistributorCreated,
   FeeCollectorUpdated,
+  NativeFeeAmountUpdated,
   RoleAdminChanged,
   RoleGranted,
-  RoleRevoked,
-  nativeFeeAmountUpdated
+  RoleRevoked
 } from "../generated/schema"
 
 export function handleAirdropDistributorCreated(
@@ -25,8 +25,11 @@ export function handleAirdropDistributorCreated(
   entity.deployedAddress = event.params.deployedAddress
   entity.merkleRoot = event.params.merkleRoot
   entity.nativeFeeAmount = event.params.nativeFeeAmount
-  entity.isSignatureRequired = event.params.isSignatureRequired
+  entity.currency = event.params.currency
   entity.verifier = event.params.verifier
+  entity.stakingContract = event.params.stakingContract
+  entity.claimingWithoutStakingPercentageFee =
+    event.params.claimingWithoutStakingPercentageFee
 
   entity.blockNumber = event.block.number
   entity.blockTimestamp = event.block.timestamp
@@ -42,6 +45,21 @@ export function handleFeeCollectorUpdated(
     event.transaction.hash.concatI32(event.logIndex.toI32())
   )
   entity.newFeeCollector = event.params.newFeeCollector
+
+  entity.blockNumber = event.block.number
+  entity.blockTimestamp = event.block.timestamp
+  entity.transactionHash = event.transaction.hash
+
+  entity.save()
+}
+
+export function handleNativeFeeAmountUpdated(
+  event: NativeFeeAmountUpdatedEvent
+): void {
+  let entity = new NativeFeeAmountUpdated(
+    event.transaction.hash.concatI32(event.logIndex.toI32())
+  )
+  entity.newAmount = event.params.newAmount
 
   entity.blockNumber = event.block.number
   entity.blockTimestamp = event.block.timestamp
@@ -87,21 +105,6 @@ export function handleRoleRevoked(event: RoleRevokedEvent): void {
   entity.role = event.params.role
   entity.account = event.params.account
   entity.sender = event.params.sender
-
-  entity.blockNumber = event.block.number
-  entity.blockTimestamp = event.block.timestamp
-  entity.transactionHash = event.transaction.hash
-
-  entity.save()
-}
-
-export function handlenativeFeeAmountUpdated(
-  event: nativeFeeAmountUpdatedEvent
-): void {
-  let entity = new nativeFeeAmountUpdated(
-    event.transaction.hash.concatI32(event.logIndex.toI32())
-  )
-  entity.newAmount = event.params.newAmount
 
   entity.blockNumber = event.block.number
   entity.blockTimestamp = event.block.timestamp

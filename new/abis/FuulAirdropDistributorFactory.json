@@ -1,6 +1,17 @@
 [
   {
-    "inputs": [],
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_feeCollector",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_nativeFeeAmount",
+        "type": "uint256"
+      }
+    ],
     "stateMutability": "nonpayable",
     "type": "constructor"
   },
@@ -31,6 +42,11 @@
     "type": "error"
   },
   {
+    "inputs": [],
+    "name": "FeeCollectorCannotReceiveETH",
+    "type": "error"
+  },
+  {
     "inputs": [
       {
         "internalType": "uint256",
@@ -44,11 +60,6 @@
       }
     ],
     "name": "InsufficientBalance",
-    "type": "error"
-  },
-  {
-    "inputs": [],
-    "name": "InvalidMerkleRoot",
     "type": "error"
   },
   {
@@ -85,15 +96,27 @@
       },
       {
         "indexed": false,
-        "internalType": "bool",
-        "name": "isSignatureRequired",
-        "type": "bool"
+        "internalType": "address",
+        "name": "currency",
+        "type": "address"
       },
       {
         "indexed": false,
         "internalType": "address",
         "name": "verifier",
         "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "address",
+        "name": "stakingContract",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "claimingWithoutStakingPercentageFee",
+        "type": "uint256"
       }
     ],
     "name": "AirdropDistributorCreated",
@@ -110,6 +133,19 @@
       }
     ],
     "name": "FeeCollectorUpdated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "newAmount",
+        "type": "uint256"
+      }
+    ],
+    "name": "NativeFeeAmountUpdated",
     "type": "event"
   },
   {
@@ -188,19 +224,6 @@
     "type": "event"
   },
   {
-    "anonymous": false,
-    "inputs": [
-      {
-        "indexed": false,
-        "internalType": "uint256",
-        "name": "newAmount",
-        "type": "uint256"
-      }
-    ],
-    "name": "nativeFeeAmountUpdated",
-    "type": "event"
-  },
-  {
     "inputs": [],
     "name": "DEFAULT_ADMIN_ROLE",
     "outputs": [
@@ -230,12 +253,17 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "admin",
+        "name": "_admin",
         "type": "address"
       },
       {
         "internalType": "address",
-        "name": "verifier",
+        "name": "_pauser",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_verifier",
         "type": "address"
       },
       {
@@ -244,55 +272,26 @@
         "type": "bytes32"
       },
       {
-        "internalType": "bool",
-        "name": "isSignatureRequired",
-        "type": "bool"
+        "internalType": "address",
+        "name": "_currency",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_stakingContract",
+        "type": "address"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_claimingWithoutStakingPercentageFee",
+        "type": "uint256"
       }
     ],
     "name": "createAirdropDistributor",
     "outputs": [
       {
         "internalType": "address",
-        "name": "deployedContract",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "admin",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "verifier",
-        "type": "address"
-      },
-      {
-        "internalType": "uint256",
-        "name": "_nativeFeeAmount",
-        "type": "uint256"
-      },
-      {
-        "internalType": "bytes32",
-        "name": "_distributorMerkleRoot",
-        "type": "bytes32"
-      },
-      {
-        "internalType": "bool",
-        "name": "isSignatureRequired",
-        "type": "bool"
-      }
-    ],
-    "name": "createAirdropDistributorAdmin",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "deployedContract",
+        "name": "",
         "type": "address"
       }
     ],

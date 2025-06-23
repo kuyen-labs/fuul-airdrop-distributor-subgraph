@@ -3,10 +3,10 @@ import { ethereum, BigInt, Address, Bytes } from "@graphprotocol/graph-ts"
 import {
   AirdropDistributorCreated,
   FeeCollectorUpdated,
+  NativeFeeAmountUpdated,
   RoleAdminChanged,
   RoleGranted,
-  RoleRevoked,
-  nativeFeeAmountUpdated
+  RoleRevoked
 } from "../generated/FuulAirdropDistributorFactory/FuulAirdropDistributorFactory"
 
 export function createAirdropDistributorCreatedEvent(
@@ -14,8 +14,10 @@ export function createAirdropDistributorCreatedEvent(
   deployedAddress: Address,
   merkleRoot: Bytes,
   nativeFeeAmount: BigInt,
-  isSignatureRequired: boolean,
-  verifier: Address
+  currency: Address,
+  verifier: Address,
+  stakingContract: Address,
+  claimingWithoutStakingPercentageFee: BigInt
 ): AirdropDistributorCreated {
   let airdropDistributorCreatedEvent = changetype<AirdropDistributorCreated>(
     newMockEvent()
@@ -48,13 +50,22 @@ export function createAirdropDistributorCreatedEvent(
     )
   )
   airdropDistributorCreatedEvent.parameters.push(
-    new ethereum.EventParam(
-      "isSignatureRequired",
-      ethereum.Value.fromBoolean(isSignatureRequired)
-    )
+    new ethereum.EventParam("currency", ethereum.Value.fromAddress(currency))
   )
   airdropDistributorCreatedEvent.parameters.push(
     new ethereum.EventParam("verifier", ethereum.Value.fromAddress(verifier))
+  )
+  airdropDistributorCreatedEvent.parameters.push(
+    new ethereum.EventParam(
+      "stakingContract",
+      ethereum.Value.fromAddress(stakingContract)
+    )
+  )
+  airdropDistributorCreatedEvent.parameters.push(
+    new ethereum.EventParam(
+      "claimingWithoutStakingPercentageFee",
+      ethereum.Value.fromUnsignedBigInt(claimingWithoutStakingPercentageFee)
+    )
   )
 
   return airdropDistributorCreatedEvent
@@ -75,6 +86,25 @@ export function createFeeCollectorUpdatedEvent(
   )
 
   return feeCollectorUpdatedEvent
+}
+
+export function createNativeFeeAmountUpdatedEvent(
+  newAmount: BigInt
+): NativeFeeAmountUpdated {
+  let nativeFeeAmountUpdatedEvent = changetype<NativeFeeAmountUpdated>(
+    newMockEvent()
+  )
+
+  nativeFeeAmountUpdatedEvent.parameters = new Array()
+
+  nativeFeeAmountUpdatedEvent.parameters.push(
+    new ethereum.EventParam(
+      "newAmount",
+      ethereum.Value.fromUnsignedBigInt(newAmount)
+    )
+  )
+
+  return nativeFeeAmountUpdatedEvent
 }
 
 export function createRoleAdminChangedEvent(
@@ -147,23 +177,4 @@ export function createRoleRevokedEvent(
   )
 
   return roleRevokedEvent
-}
-
-export function createnativeFeeAmountUpdatedEvent(
-  newAmount: BigInt
-): nativeFeeAmountUpdated {
-  let nativeFeeAmountUpdatedEvent = changetype<nativeFeeAmountUpdated>(
-    newMockEvent()
-  )
-
-  nativeFeeAmountUpdatedEvent.parameters = new Array()
-
-  nativeFeeAmountUpdatedEvent.parameters.push(
-    new ethereum.EventParam(
-      "newAmount",
-      ethereum.Value.fromUnsignedBigInt(newAmount)
-    )
-  )
-
-  return nativeFeeAmountUpdatedEvent
 }
