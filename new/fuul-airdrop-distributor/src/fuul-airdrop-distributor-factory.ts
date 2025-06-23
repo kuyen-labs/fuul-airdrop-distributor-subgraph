@@ -5,7 +5,7 @@ import {
   RoleGranted as RoleGrantedEvent,
   RoleRevoked as RoleRevokedEvent,
   nativeFeeAmountUpdated as nativeFeeAmountUpdatedEvent
-} from "../generated/FuulAirdropDistributor/FuulAirdropDistributor"
+} from "../generated/FuulAirdropDistributorFactory/FuulAirdropDistributorFactory"
 import {
   AirdropDistributorCreated,
   FeeCollectorUpdated,

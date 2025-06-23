@@ -5,11 +5,11 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum
-    name: FuulAirdropDistributor
+    name: FuulAirdropDistributorFactory
     network: base-sepolia
     source:
       address: "0x84849FE5C802D84999799B5c748d46b2C5dac82e"
-      abi: FuulAirdropDistributor
+      abi: FuulAirdropDistributorFactory
       startBlock: 026553040
     mapping:
       kind: ethereum/events
@@ -23,8 +23,8 @@ dataSources:
         - RoleRevoked
         - nativeFeeAmountUpdated
       abis:
-        - name: FuulAirdropDistributor
-          file: ./abis/FuulAirdropDistributor.json
+        - name: FuulAirdropDistributorFactory
+          file: ./abis/FuulAirdropDistributorFactory.json
       eventHandlers:
         - event: AirdropDistributorCreated(indexed uint256,indexed address,bytes32,uint256,bool,address)
           handler: handleAirdropDistributorCreated
@@ -38,4 +38,4 @@ dataSources:
           handler: handleRoleRevoked
         - event: nativeFeeAmountUpdated(uint256)
           handler: handlenativeFeeAmountUpdated
-      file: ./src/fuul-airdrop-distributor.ts
+      file: ./src/fuul-airdrop-distributor-factory.ts

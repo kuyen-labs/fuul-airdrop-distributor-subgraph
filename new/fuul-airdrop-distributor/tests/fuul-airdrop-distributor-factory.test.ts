@@ -8,9 +8,9 @@ import {
 } from "matchstick-as/assembly/index"
 import { BigInt, Address, Bytes } from "@graphprotocol/graph-ts"
 import { AirdropDistributorCreated } from "../generated/schema"
-import { AirdropDistributorCreated as AirdropDistributorCreatedEvent } from "../generated/FuulAirdropDistributor/FuulAirdropDistributor"
-import { handleAirdropDistributorCreated } from "../src/fuul-airdrop-distributor"
-import { createAirdropDistributorCreatedEvent } from "./fuul-airdrop-distributor-utils"
+import { AirdropDistributorCreated as AirdropDistributorCreatedEvent } from "../generated/FuulAirdropDistributorFactory/FuulAirdropDistributorFactory"
+import { handleAirdropDistributorCreated } from "../src/fuul-airdrop-distributor-factory"
+import { createAirdropDistributorCreatedEvent } from "./fuul-airdrop-distributor-factory-utils"
 
 // Tests structure (matchstick-as >=0.5.0)
 // https://thegraph.com/docs/en/developer/matchstick/#tests-structure-0-5-0

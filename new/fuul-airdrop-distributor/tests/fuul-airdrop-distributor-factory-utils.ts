@@ -7,7 +7,7 @@ import {
   RoleGranted,
   RoleRevoked,
   nativeFeeAmountUpdated
-} from "../generated/FuulAirdropDistributor/FuulAirdropDistributor"
+} from "../generated/FuulAirdropDistributorFactory/FuulAirdropDistributorFactory"
 
 export function createAirdropDistributorCreatedEvent(
   contractId: BigInt,
