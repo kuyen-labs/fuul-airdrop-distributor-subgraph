@@ -13,48 +13,30 @@ type AirdropDistributorCreated @entity(immutable: true) {
   transactionHash: Bytes!
 }
 
-type FeeCollectorUpdated @entity(immutable: true) {
+type Claimed @entity(immutable: true) {
   id: Bytes!
-  newFeeCollector: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type NativeFeeAmountUpdated @entity(immutable: true) {
-  id: Bytes!
-  newAmount: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type RoleAdminChanged @entity(immutable: true) {
-  id: Bytes!
-  role: Bytes! # bytes32
-  previousAdminRole: Bytes! # bytes32
-  newAdminRole: Bytes! # bytes32
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type RoleGranted @entity(immutable: true) {
-  id: Bytes!
-  role: Bytes! # bytes32
   account: Bytes! # address
-  sender: Bytes! # address
+  currency: Bytes! # address
+  amount: BigInt! # uint256
+  claimedAmount: BigInt! # uint256
+  season: Int! # uint8
   blockNumber: BigInt!
   blockTimestamp: BigInt!
   transactionHash: Bytes!
 }
 
-type RoleRevoked @entity(immutable: true) {
+type UserBalance @entity {
+  id: ID!
+  userId: Bytes!
+  distributorId: Bytes!
+  claimedAmount: BigInt!
+}
+
+type Distributor @entity {
   id: Bytes!
-  role: Bytes! # bytes32
-  account: Bytes! # address
-  sender: Bytes! # address
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+  currency: Bytes! # address
+  claimedAmount: BigInt! # uint256
+  participants: BigInt! # uint256
+  totalClaims: BigInt! # uint256
+  userBalances: [UserBalance!] @derivedFrom(field: "distributorId")
 }

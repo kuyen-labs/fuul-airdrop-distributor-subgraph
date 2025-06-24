@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: FuulAirdropDistributorFactory
-    network: base-sepolia
+    network: mainnet
     source:
-      address: "0x523A47993382A668c6317081D290FC4027d190e6"
+      address: "0xE3BF80B33D2abA9C798f040939A722DdA7FbE520"
       abi: FuulAirdropDistributorFactory
-      startBlock: 27249514
+      startBlock: 0
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -28,26 +28,14 @@ dataSources:
       eventHandlers:
         - event: AirdropDistributorCreated(indexed uint256,indexed address,bytes32,uint256,address,address,address,uint256)
           handler: handleAirdropDistributorCreated
+        - event: FeeCollectorUpdated(indexed address)
+          handler: handleFeeCollectorUpdated
+        - event: NativeFeeAmountUpdated(uint256)
+          handler: handleNativeFeeAmountUpdated
+        - event: RoleAdminChanged(indexed bytes32,indexed bytes32,indexed bytes32)
+          handler: handleRoleAdminChanged
+        - event: RoleGranted(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleGranted
+        - event: RoleRevoked(indexed bytes32,indexed address,indexed address)
+          handler: handleRoleRevoked
       file: ./src/fuul-airdrop-distributor-factory.ts
-templates:
-  - kind: ethereum
-    name: FuulAirdropDistributor
-    network: base-sepolia
-    source:
-      abi: FuulAirdropDistributor
-    mapping:
-      kind: ethereum/events
-      apiVersion: 0.0.7
-      language: wasm/assemblyscript
-      entities:
-        - Claimed
-        - ClaimingWithoutStakingPercentageFeeUpdated
-      abis:
-        - name: FuulAirdropDistributor
-          file: ./abis/FuulAirdropDistributor.json
-      eventHandlers:
-        - event: Claimed(indexed address,address,uint256,uint256,uint8)
-          handler: handleClaimed
-        - event: ClaimingWithoutStakingPercentageFeeUpdated(uint256)
-          handler: handleClaimingWithoutStakingPercentageFeeUpdated
-      file: ./src/fuul-airdrop-distributor.ts
