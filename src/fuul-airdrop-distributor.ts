@@ -1,5 +1,5 @@
 import { Claimed as ClaimedEvent } from "../generated/templates/FuulAirdropDistributor/FuulAirdropDistributor";
-import { Claimed, Distributor, UserBalance } from "../generated/schema";
+import { Distributor, User, UserBalance } from "../generated/schema";
 import { BigInt } from "@graphprotocol/graph-ts";
 
 export function handleClaimed(event: ClaimedEvent): void {
@@ -17,17 +17,23 @@ export function handleClaimed(event: ClaimedEvent): void {
     );
   }
 
+  if (!User.load(userId)) {
+    const user = new User(userId);
+    user.save();
+  }
+
   distributor.totalClaims.plus(BigInt.fromI32(1));
   distributor.claimedAmount.plus(event.params.claimedAmount);
 
-  const userBalanceId = `${distributorId?.toHexString()}-${userId.toHexString()}`;
-
+  const userBalanceId = `${distributorId.toHexString()}-${userId.toHexString()}`;
   let userBalance = UserBalance.load(userBalanceId);
   if (!userBalance) {
     userBalance = new UserBalance(userBalanceId);
-    userBalance.userId = userId;
-    userBalance.distributorId = distributorId;
+    userBalance.user = userId;
+    userBalance.distributor = distributorId;
     userBalance.claimedAmount = event.params.claimedAmount;
+
+    distributor.participants.plus(BigInt.fromI32(1));
   } else {
     userBalance.claimedAmount.plus(event.params.claimedAmount);
   }

@@ -1,8 +1,0 @@
-{
-  "mainnet": {
-    "FuulAirdropDistributorFactory": {
-      "address": "0xE3BF80B33D2abA9C798f040939A722DdA7FbE520",
-      "startBlock": 0
-    }
-  }
-}

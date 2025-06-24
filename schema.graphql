@@ -1,66 +1,20 @@
-type NativeFeeUpdated @entity(immutable: true) {
+type Distributor @entity {
   id: Bytes!
-  value: BigInt! # uint256
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
+  currency: Bytes! # address
+  claimedAmount: BigInt! # uint256
+  participants: BigInt! # uint256
+  totalClaims: BigInt! # uint256
+  userBalances: [UserBalance!] @derivedFrom(field: "distributor")
 }
 
-type FeeCollectorUpdated @entity(immutable: true) {
+type User @entity {
   id: Bytes!
-  newCollector: Bytes!
-  blockNumber: BigInt!
-  blockTimestamp: BigInt!
-  transactionHash: Bytes!
-}
-
-type Budget @entity {
-  id: ID!
-  owner: Project!
-  currency: Bytes!
-  amount: BigInt!
-  claims: Bigint!
-  amountClaimed: Bigint!
-  chainId: Int!
-}
-
-type Project @entity {
-  id: ID!
-  airdropId: BigInt!
-  deployedAddress: Bytes!
-  merkleRoot: Bytes!
-  nativeFeeAmount: BigInt!
-  isSignatureRequired: Boolean!
-  budgets: [Budget!] @derivedFrom(field: "owner")
-  userBalances: [UserBalance!] @derivedFrom(field: "project")
-  members: [ProjectMember!] @derivedFrom(field: "project")
-  verifiers: [ProjectVerifier!] @derivedFrom(field: "project")
+  balances: [UserBalance!] @derivedFrom(field: "user")
 }
 
 type UserBalance @entity {
   id: ID!
-  owner: User!
-  project: Project!
-  currency: Bytes!
-  claimed: BigInt!
-}
-
-type User @entity {
-  id: ID!
-  address: Bytes!
-  balances: [UserBalance!] @derivedFrom(field: "owner")
-}
-
-type ProjectMember @entity {
-  id: ID!
-  project: Project!
-  address: Bytes!
-  role: String!
-}
-
-type ProjectVerifier @entity {
-  id: ID!
-  project: Project!
-  address: Bytes!
-  role: String!
+  user: User!
+  distributor: Distributor!
+  claimedAmount: BigInt!
 }
