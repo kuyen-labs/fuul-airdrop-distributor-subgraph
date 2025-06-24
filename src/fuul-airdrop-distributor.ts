@@ -22,8 +22,11 @@ export function handleClaimed(event: ClaimedEvent): void {
     user.save();
   }
 
-  distributor.totalClaims.plus(BigInt.fromI32(1));
-  distributor.claimedAmount.plus(event.params.claimedAmount);
+  distributor.totalClaims = distributor.totalClaims.plus(BigInt.fromI32(1));
+  distributor.claimedAmount = distributor.claimedAmount.plus(
+    event.params.claimedAmount
+  );
+  distributor.amount = distributor.amount = event.params.amount;
 
   const userBalanceId = `${distributorId.toHexString()}-${userId.toHexString()}`;
   let userBalance = UserBalance.load(userBalanceId);
@@ -32,10 +35,13 @@ export function handleClaimed(event: ClaimedEvent): void {
     userBalance.user = userId;
     userBalance.distributor = distributorId;
     userBalance.claimedAmount = event.params.claimedAmount;
+    userBalance.amount = event.params.amount;
 
-    distributor.participants.plus(BigInt.fromI32(1));
+    distributor.participants = distributor.participants.plus(BigInt.fromI32(1));
   } else {
-    userBalance.claimedAmount.plus(event.params.claimedAmount);
+    userBalance.claimedAmount = userBalance.claimedAmount.plus(
+      event.params.claimedAmount
+    );
   }
 
   distributor.save();

@@ -14,6 +14,7 @@ export function handleAirdropDistributorCreated(
   distributor.currency = event.params.currency;
   distributor.claimedAmount = BigInt.fromI32(0);
   distributor.totalClaims = BigInt.fromI32(0);
+  distributor.amount = BigInt.fromI32(0);
 
   distributor.save();
 }

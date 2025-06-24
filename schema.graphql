@@ -2,6 +2,7 @@ type Distributor @entity {
   id: Bytes!
   currency: Bytes! # address
   claimedAmount: BigInt! # uint256
+  amount: BigInt! # uint256
   participants: BigInt! # uint256
   totalClaims: BigInt! # uint256
   userBalances: [UserBalance!] @derivedFrom(field: "distributor")
@@ -17,4 +18,5 @@ type UserBalance @entity {
   user: User!
   distributor: Distributor!
   claimedAmount: BigInt!
+  amount: BigInt!
 }
