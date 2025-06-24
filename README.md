@@ -1,4 +1,4 @@
-# Fuul Airdrop Distributor subgraphs
+# Fuul Airdrop Distributor subgraph
 
 ## Example queries
 
