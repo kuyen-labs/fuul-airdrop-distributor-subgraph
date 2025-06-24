@@ -8,7 +8,7 @@ dataSources:
     name: FuulAirdropDistributorFactory
     network: base-sepolia
     source:
-      address: "0xcaa681ebd94048c2c9c667f2c06669a9d5cfb8bc"
+      address: "0xCaa681eBD94048C2C9C667F2c06669a9d5CFb8BC"
       abi: FuulAirdropDistributorFactory
       startBlock: 27512938
     mapping:
@@ -17,11 +17,6 @@ dataSources:
       language: wasm/assemblyscript
       entities:
         - AirdropDistributorCreated
-        - FeeCollectorUpdated
-        - NativeFeeAmountUpdated
-        - RoleAdminChanged
-        - RoleGranted
-        - RoleRevoked
       abis:
         - name: FuulAirdropDistributorFactory
           file: ./abis/FuulAirdropDistributorFactory.json
