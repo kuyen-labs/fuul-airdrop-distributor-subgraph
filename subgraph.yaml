@@ -21,7 +21,7 @@ dataSources:
         - name: FuulAirdropDistributorFactory
           file: ./abis/FuulAirdropDistributorFactory.json
       eventHandlers:
-        - event: AirdropDistributorCreated(indexed uint256,indexed address,bytes32,uint256,address,address,address,uint256)
+        - event: AirdropDistributorCreated(indexed uint256,indexed address,bytes32,uint256,address,address,address,uint256,(uint256,uint256)[])
           handler: handleAirdropDistributorCreated
       file: ./src/fuul-airdrop-distributor-factory.ts
 templates:
@@ -36,13 +36,34 @@ templates:
       language: wasm/assemblyscript
       entities:
         - Claimed
-        - ClaimingWithoutStakingPercentageFeeUpdated
+        - ClaimingWithoutStakingPercentagePenaltyUpdated
       abis:
         - name: FuulAirdropDistributor
           file: ./abis/FuulAirdropDistributor.json
       eventHandlers:
         - event: Claimed(indexed address,uint256,uint256,uint8)
           handler: handleClaimed
-        - event: ClaimingWithoutStakingPercentageFeeUpdated(uint256)
-          handler: handleClaimingWithoutStakingPercentageFeeUpdated
+        - event: ClaimingWithoutStakingPercentagePenaltyUpdated(uint256)
+          handler: handleClaimingWithoutStakingPercentagePenaltyUpdatedWithoutDuration
+      file: ./src/fuul-airdrop-distributor.ts
+  - kind: ethereum
+    name: FuulAirdropDistributorWithDuration
+    network: base-sepolia
+    source:
+      abi: FuulAirdropDistributorWithDuration
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Claimed
+        - ClaimingWithoutStakingPercentagePenaltyUpdated
+      abis:
+        - name: FuulAirdropDistributorWithDuration
+          file: ./abis/FuulAirdropDistributorWithDuration.json
+      eventHandlers:
+        - event: Claimed(indexed address,uint256,uint256,uint8)
+          handler: handleClaimed
+        - event: ClaimingWithoutStakingPercentagePenaltyUpdated(uint256,uint256)
+          handler: handleClaimingWithoutStakingPercentagePenaltyUpdatedWithDuration
       file: ./src/fuul-airdrop-distributor.ts
