@@ -8,9 +8,9 @@ dataSources:
     name: FuulAirdropDistributorFactory
     network: base-sepolia
     source:
-      address: "0xCaa681eBD94048C2C9C667F2c06669a9d5CFb8BC"
+      address: "0x7F1BD8503539317d29a7ba69F85B06Cb65Af345a"
       abi: FuulAirdropDistributorFactory
-      startBlock: 27512938
+      startBlock: 27802606
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
