@@ -1,5 +1,12 @@
 import { Claimed as ClaimedEvent } from "../generated/templates/FuulAirdropDistributor/FuulAirdropDistributor";
-import { Distributor, User, UserBalance } from "../generated/schema";
+import { ClaimingWithoutStakingPercentagePenaltyUpdated as ClaimingWithoutStakingPercentagePenaltyFeeUpdatedWithoutDuration } from "../generated/templates/FuulAirdropDistributor/FuulAirdropDistributor";
+import { ClaimingWithoutStakingPercentagePenaltyUpdated as ClaimingWithoutStakingPercentagePenaltyFeeUpdatedWithDuration } from "../generated/templates/FuulAirdropDistributorWithDuration/FuulAirdropDistributorWithDuration";
+import {
+  Distributor,
+  DurationPenalty,
+  User,
+  UserBalance,
+} from "../generated/schema";
 import { BigInt } from "@graphprotocol/graph-ts";
 
 export function handleClaimed(event: ClaimedEvent): void {
@@ -12,9 +19,7 @@ export function handleClaimed(event: ClaimedEvent): void {
 
   const distributor = Distributor.load(distributorId);
   if (!distributor) {
-    throw new Error(
-      `Distributor id ${distributorId.toHexString()} could not be loaded`
-    );
+    throw new Error(`Could not load Distributor${distributorId.toHexString()}`);
   }
 
   if (!User.load(userId)) {
@@ -47,4 +52,44 @@ export function handleClaimed(event: ClaimedEvent): void {
   distributor.save();
 
   userBalance.save();
+}
+
+export function handleClaimingWithoutStakingPercentagePenaltyUpdatedWithoutDuration(
+  event: ClaimingWithoutStakingPercentagePenaltyFeeUpdatedWithoutDuration
+): void {
+  const distributorId = event.transaction.to;
+  if (!distributorId) {
+    throw new Error("Could not determine distributorId");
+  }
+
+  const distributor = Distributor.load(distributorId);
+  if (!distributor) {
+    throw new Error(
+      `Could not load Distributor ${distributorId.toHexString()}`
+    );
+  }
+
+  distributor.claimingWithoutStakingPercentagePenalty = event.params.newPenalty;
+  distributor.save();
+}
+
+export function handleClaimingWithoutStakingPercentagePenaltyUpdatedWithDuration(
+  event: ClaimingWithoutStakingPercentagePenaltyFeeUpdatedWithDuration
+): void {
+  const distributorId = event.transaction.to;
+  if (!distributorId) {
+    throw new Error("Could not determine distributorId");
+  }
+
+  const durationFeeId = `${distributorId
+    .toHexString()
+    .toLowerCase()}-${event.params.duration.toString()}`;
+
+  const durationFee = DurationPenalty.load(durationFeeId);
+  if (!durationFee) {
+    throw new Error(`Could not load DurationFee ${durationFeeId}`);
+  }
+
+  durationFee.penalty = event.params.newPenalty;
+  durationFee.save();
 }

@@ -1,3 +1,10 @@
+type DurationPenalty @entity {
+  id: ID!
+  duration: BigInt!
+  penalty: BigInt!
+  distributor: Distributor!
+}
+
 type Distributor @entity {
   id: Bytes!
   currency: Bytes! # address
@@ -6,6 +13,8 @@ type Distributor @entity {
   participants: BigInt! # uint256
   totalClaims: BigInt! # uint256
   userBalances: [UserBalance!] @derivedFrom(field: "distributor")
+  claimingWithoutStakingPercentagePenalty: BigInt!
+  durationPenalties: [DurationPenalty!] @derivedFrom(field: "distributor")
 }
 
 type User @entity {

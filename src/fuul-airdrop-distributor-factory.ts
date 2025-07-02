@@ -1,13 +1,16 @@
 import { BigInt } from "@graphprotocol/graph-ts";
 import { AirdropDistributorCreated } from "../generated/FuulAirdropDistributorFactory/FuulAirdropDistributorFactory";
-import { Distributor } from "../generated/schema";
+import { Distributor, DurationPenalty } from "../generated/schema";
 
-import { FuulAirdropDistributor } from "../generated/templates";
+import {
+  FuulAirdropDistributor,
+  FuulAirdropDistributorWithDuration,
+} from "../generated/templates";
 
 export function handleAirdropDistributorCreated(
   event: AirdropDistributorCreated
 ): void {
-  FuulAirdropDistributor.create(event.params.deployedAddress);
+  const distributorAddress = event.params.deployedAddress;
 
   const distributor = new Distributor(event.params.deployedAddress);
   distributor.participants = BigInt.fromI32(0);
@@ -15,6 +18,29 @@ export function handleAirdropDistributorCreated(
   distributor.claimedAmount = BigInt.fromI32(0);
   distributor.totalClaims = BigInt.fromI32(0);
   distributor.amount = BigInt.fromI32(0);
+  distributor.claimingWithoutStakingPercentagePenalty =
+    event.params.claimingWithoutStakingPercentagePenalty;
+
+  if (event.params.durationPenalty.length > 0) {
+    FuulAirdropDistributorWithDuration.create(event.params.deployedAddress);
+
+    const penalties = event.params.durationPenalty;
+    for (let i = 0; i < penalties.length; i++) {
+      const penalty = penalties[i];
+
+      const durationId = `${distributorAddress
+        .toHexString()
+        .toLowerCase()}-${penalty.duration.toString()}`;
+
+      const duration = new DurationPenalty(durationId);
+      duration.duration = penalty.duration;
+      duration.penalty = penalty.penalty;
+      duration.distributor = distributorAddress;
+      duration.save();
+    }
+  } else {
+    FuulAirdropDistributor.create(event.params.deployedAddress);
+  }
 
   distributor.save();
 }
