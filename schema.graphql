@@ -14,7 +14,7 @@ type Distributor @entity {
   totalClaims: BigInt! # uint256
   userBalances: [UserBalance!] @derivedFrom(field: "distributor")
   claimingWithoutStakingPercentagePenalty: BigInt!
-  durationPenalties: [DurationPenalty!]! @derivedFrom(field: "distributor")
+  durationPenalties: [DurationPenalty!] @derivedFrom(field: "distributor")
 }
 
 type User @entity {

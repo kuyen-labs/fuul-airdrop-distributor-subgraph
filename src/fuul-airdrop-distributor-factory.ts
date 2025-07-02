@@ -10,6 +10,8 @@ import {
 export function handleAirdropDistributorCreated(
   event: AirdropDistributorCreated
 ): void {
+  const distributorAddress = event.params.deployedAddress;
+
   const distributor = new Distributor(event.params.deployedAddress);
   distributor.participants = BigInt.fromI32(0);
   distributor.currency = event.params.currency;
@@ -22,16 +24,19 @@ export function handleAirdropDistributorCreated(
   if (event.params.durationPenalty.length > 0) {
     FuulAirdropDistributorWithDuration.create(event.params.deployedAddress);
 
-    event.params.durationPenalty.forEach((x, i) => {
-      const duration = new DurationPenalty(
-        `${event.params.deployedAddress
-          .toHexString()
-          .toLowerCase()}-${x.duration.toString()}`
-      );
-      duration.duration = x.duration;
-      duration.penalty = x.penalty;
+    const penalties = event.params.durationPenalty;
+    for (let i = 0; i < penalties.length; i++) {
+      const penalty = penalties[i];
+
+      const durationId = `${distributorAddress
+        .toHexString()
+        .toLowerCase()}-${penalty.duration.toString()}`;
+
+      const duration = new DurationPenalty(durationId);
+      duration.duration = penalty.duration;
+      duration.penalty = penalty.penalty;
       duration.save();
-    });
+    }
   } else {
     FuulAirdropDistributor.create(event.params.deployedAddress);
   }
