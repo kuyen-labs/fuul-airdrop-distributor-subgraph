@@ -35,6 +35,7 @@ export function handleAirdropDistributorCreated(
       const duration = new DurationPenalty(durationId);
       duration.duration = penalty.duration;
       duration.penalty = penalty.penalty;
+      duration.distributor = distributorAddress;
       duration.save();
     }
   } else {
