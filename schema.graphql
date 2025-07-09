@@ -2,6 +2,7 @@ type DurationPenalty @entity {
   id: ID!
   duration: BigInt!
   penalty: BigInt!
+  enabled: Boolean!
   distributor: Distributor!
 }
 

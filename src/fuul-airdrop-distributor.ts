@@ -1,6 +1,6 @@
 import { Claimed as ClaimedEvent } from "../generated/templates/FuulAirdropDistributor/FuulAirdropDistributor";
-import { ClaimingWithoutStakingPercentagePenaltyUpdated as ClaimingWithoutStakingPercentagePenaltyFeeUpdatedWithoutDuration } from "../generated/templates/FuulAirdropDistributor/FuulAirdropDistributor";
-import { ClaimingWithoutStakingPercentagePenaltyUpdated as ClaimingWithoutStakingPercentagePenaltyFeeUpdatedWithDuration } from "../generated/templates/FuulAirdropDistributorWithDuration/FuulAirdropDistributorWithDuration";
+import { ClaimingWithoutStakingPercentagePenaltyUpdated } from "../generated/templates/FuulAirdropDistributor/FuulAirdropDistributor";
+import { StakingDurationPenaltyUpdated } from "../generated/templates/FuulAirdropDistributorWithDuration/FuulAirdropDistributorWithDuration";
 import {
   Distributor,
   DurationPenalty,
@@ -54,8 +54,8 @@ export function handleClaimed(event: ClaimedEvent): void {
   userBalance.save();
 }
 
-export function handleClaimingWithoutStakingPercentagePenaltyUpdatedWithoutDuration(
-  event: ClaimingWithoutStakingPercentagePenaltyFeeUpdatedWithoutDuration
+export function handleClaimingWithoutStakingPercentagePenaltyUpdated(
+  event: ClaimingWithoutStakingPercentagePenaltyUpdated
 ): void {
   const distributorId = event.transaction.to;
   if (!distributorId) {
@@ -73,8 +73,8 @@ export function handleClaimingWithoutStakingPercentagePenaltyUpdatedWithoutDurat
   distributor.save();
 }
 
-export function handleClaimingWithoutStakingPercentagePenaltyUpdatedWithDuration(
-  event: ClaimingWithoutStakingPercentagePenaltyFeeUpdatedWithDuration
+export function handleStakingDurationPenaltyUpdated(
+  event: StakingDurationPenaltyUpdated
 ): void {
   const distributorId = event.transaction.to;
   if (!distributorId) {
@@ -85,11 +85,13 @@ export function handleClaimingWithoutStakingPercentagePenaltyUpdatedWithDuration
     .toHexString()
     .toLowerCase()}-${event.params.duration.toString()}`;
 
-  const durationFee = DurationPenalty.load(durationFeeId);
-  if (!durationFee) {
-    throw new Error(`Could not load DurationFee ${durationFeeId}`);
+  const durationPenalty = DurationPenalty.load(durationFeeId);
+  if (!durationPenalty) {
+    throw new Error(`Could not load DurationPenalty ${durationFeeId}`);
   }
 
-  durationFee.penalty = event.params.newPenalty;
-  durationFee.save();
+  durationPenalty.penalty = event.params.newPenalty;
+  durationPenalty.enabled = event.params.isEnabled;
+
+  durationPenalty.save();
 }

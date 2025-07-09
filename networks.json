@@ -1,8 +1,8 @@
 {
   "base-sepolia": {
     "FuulAirdropDistributorFactory": {
-      "address": "0x7F1BD8503539317d29a7ba69F85B06Cb65Af345a",
-      "startBlock": 27802606
+      "address": "0xFcE64a98a80ba7cA4A02A795b2e79CaAb1a1048B",
+      "startBlock": 28070825
     }
   }
 }

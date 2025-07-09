@@ -36,6 +36,8 @@ export function handleAirdropDistributorCreated(
       duration.duration = penalty.duration;
       duration.penalty = penalty.penalty;
       duration.distributor = distributorAddress;
+      duration.enabled = true;
+
       duration.save();
     }
   } else {

@@ -318,7 +318,7 @@
           }
         ],
         "internalType": "struct IFuulAirdropDistributorFactory.DurationPenalty[]",
-        "name": "_durationFees",
+        "name": "_durationPenalty",
         "type": "tuple[]"
       }
     ],
@@ -326,7 +326,7 @@
     "outputs": [
       {
         "internalType": "address",
-        "name": "",
+        "name": "deployedContract",
         "type": "address"
       }
     ],

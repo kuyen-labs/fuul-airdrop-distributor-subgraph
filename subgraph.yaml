@@ -8,9 +8,9 @@ dataSources:
     name: FuulAirdropDistributorFactory
     network: base-sepolia
     source:
-      address: "0x7F1BD8503539317d29a7ba69F85B06Cb65Af345a"
+      address: "0xFcE64a98a80ba7cA4A02A795b2e79CaAb1a1048B"
       abi: FuulAirdropDistributorFactory
-      startBlock: 27802606
+      startBlock: 28070825
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -44,7 +44,7 @@ templates:
         - event: Claimed(indexed address,uint256,uint256,uint8)
           handler: handleClaimed
         - event: ClaimingWithoutStakingPercentagePenaltyUpdated(uint256)
-          handler: handleClaimingWithoutStakingPercentagePenaltyUpdatedWithoutDuration
+          handler: handleClaimingWithoutStakingPercentagePenaltyUpdated
       file: ./src/fuul-airdrop-distributor.ts
   - kind: ethereum
     name: FuulAirdropDistributorWithDuration
@@ -64,6 +64,6 @@ templates:
       eventHandlers:
         - event: Claimed(indexed address,uint256,uint256,uint8)
           handler: handleClaimed
-        - event: ClaimingWithoutStakingPercentagePenaltyUpdated(uint256,uint256)
-          handler: handleClaimingWithoutStakingPercentagePenaltyUpdatedWithDuration
+        - event: StakingDurationPenaltyUpdated(uint256,uint256,bool)
+          handler: handleStakingDurationPenaltyUpdated
       file: ./src/fuul-airdrop-distributor.ts
