@@ -31,7 +31,7 @@ export function handleClaimed(event: ClaimedEvent): void {
   distributor.claimedAmount = distributor.claimedAmount.plus(
     event.params.claimedAmount
   );
-  distributor.amount = distributor.amount = event.params.amount;
+  distributor.amount = distributor.amount.plus(event.params.amount);
 
   const userBalanceId = `${distributorId.toHexString()}-${userId.toHexString()}`;
   let userBalance = UserBalance.load(userBalanceId);
