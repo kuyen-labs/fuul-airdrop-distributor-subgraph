@@ -47,6 +47,7 @@ export function handleClaimed(event: ClaimedEvent): void {
     userBalance.claimedAmount = userBalance.claimedAmount.plus(
       event.params.claimedAmount
     );
+    userBalance.amount = userBalance.amount.plus(event.params.amount);
   }
 
   distributor.save();
