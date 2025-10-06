@@ -82,13 +82,15 @@ export function handleStakingDurationPenaltyUpdated(
     throw new Error("Could not determine distributorId");
   }
 
-  const durationFeeId = `${distributorId
+  const durationId = `${distributorId
     .toHexString()
     .toLowerCase()}-${event.params.duration.toString()}`;
 
-  const durationPenalty = DurationPenalty.load(durationFeeId);
+  let durationPenalty = DurationPenalty.load(durationId);
   if (!durationPenalty) {
-    throw new Error(`Could not load DurationPenalty ${durationFeeId}`);
+    durationPenalty = new DurationPenalty(durationId);
+    durationPenalty.duration = event.params.duration;
+    durationPenalty.distributor = distributorId;
   }
 
   durationPenalty.penalty = event.params.newPenalty;
