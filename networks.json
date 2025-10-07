@@ -4,5 +4,11 @@
       "address": "0xAC91899F7B06105086eF6Ed723457F8343F4BD34",
       "startBlock": 31996467
     }
+  },
+  "base": {
+    "FuulAirdropDistributorFactory": {
+      "address": "0x1265079c3870BB590fD0e750954EaA7c8AFC6e1e",
+      "startBlock": 36505052
+    }
   }
 }	
