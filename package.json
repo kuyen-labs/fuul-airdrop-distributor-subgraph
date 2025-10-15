@@ -4,8 +4,8 @@
   "scripts": {
     "codegen": "graph codegen",
     "build": "graph build",
-    "deploy:base-sepolia": "graph deploy --node https://subgraphs.alchemy.com/api/subgraphs/deploy --deploy-key 1eH3sXc34rcKb --ipfs https://ipfs.satsuma.xyz fuul-airdrop-distributor-base-sepolia",
-    "deploy:base-mainnet": "graph deploy --node https://subgraphs.alchemy.com/api/subgraphs/deploy --deploy-key 1eH3sXc34rcKb --ipfs https://ipfs.satsuma.xyz fuul-airdrop-distributor-base-mainnet",
+    "deploy:base-sepolia": "graph deploy --node https://subgraphs.alchemy.com/api/subgraphs/deploy --deploy-key 1eH3sXc34rcKb --ipfs https://ipfs.satsuma.xyz --network base-sepolia fuul-airdrop-distributor-base-sepolia",
+    "deploy:base-mainnet": "graph deploy --node https://subgraphs.alchemy.com/api/subgraphs/deploy --deploy-key 1eH3sXc34rcKb --ipfs https://ipfs.satsuma.xyz --network base fuul-airdrop-distributor-base-mainnet",
     "create-local": "graph create --node http://localhost:8020/ fuul-airdrop-distributor",
     "remove-local": "graph remove --node http://localhost:8020/ fuul-airdrop-distributor",
     "deploy-local": "graph deploy --node http://localhost:8020/ --ipfs http://localhost:5001 fuul-airdrop-distributor",

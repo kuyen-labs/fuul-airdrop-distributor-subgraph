@@ -6,11 +6,11 @@ schema:
 dataSources:
   - kind: ethereum
     name: FuulAirdropDistributorFactory
-    network: base
+    network: base-sepolia
     source:
-      address: "0x1265079c3870BB590fD0e750954EaA7c8AFC6e1e"
       abi: FuulAirdropDistributorFactory
-      startBlock: 36505052
+      address: "0xAC91899F7B06105086eF6Ed723457F8343F4BD34"
+      startBlock: 31996467
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -21,13 +21,14 @@ dataSources:
         - name: FuulAirdropDistributorFactory
           file: ./abis/FuulAirdropDistributorFactory.json
       eventHandlers:
-        - event: AirdropDistributorCreated(indexed uint256,indexed address,bytes32,uint256,address,address,address,uint256,(uint256,uint256)[])
+        - event: AirdropDistributorCreated(indexed uint256,indexed
+            address,bytes32,uint256,address,address,address,uint256,(uint256,uint256)[])
           handler: handleAirdropDistributorCreated
       file: ./src/fuul-airdrop-distributor-factory.ts
 templates:
   - kind: ethereum
     name: FuulAirdropDistributor
-    network: base
+    network: base-sepolia
     source:
       abi: FuulAirdropDistributor
     mapping:
@@ -48,7 +49,7 @@ templates:
       file: ./src/fuul-airdrop-distributor.ts
   - kind: ethereum
     name: FuulAirdropDistributorWithDuration
-    network: base
+    network: base-sepolia
     source:
       abi: FuulAirdropDistributorWithDuration
     mapping:
