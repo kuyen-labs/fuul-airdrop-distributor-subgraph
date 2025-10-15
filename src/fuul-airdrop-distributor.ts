@@ -10,7 +10,7 @@ import {
 import { BigInt } from "@graphprotocol/graph-ts";
 
 export function handleClaimed(event: ClaimedEvent): void {
-  const distributorId = event.transaction.to;
+  const distributorId = event.address;
   const userId = event.params.account;
 
   if (!distributorId) {
@@ -19,7 +19,9 @@ export function handleClaimed(event: ClaimedEvent): void {
 
   const distributor = Distributor.load(distributorId);
   if (!distributor) {
-    throw new Error(`Could not load Distributor${distributorId.toHexString()}`);
+    throw new Error(
+      `Could not load Distributor ${distributorId.toHexString()}`
+    );
   }
 
   if (!User.load(userId)) {
@@ -58,7 +60,7 @@ export function handleClaimed(event: ClaimedEvent): void {
 export function handleClaimingWithoutStakingPercentagePenaltyUpdated(
   event: ClaimingWithoutStakingPercentagePenaltyUpdated
 ): void {
-  const distributorId = event.transaction.to;
+  const distributorId = event.address;
   if (!distributorId) {
     throw new Error("Could not determine distributorId");
   }
@@ -77,7 +79,7 @@ export function handleClaimingWithoutStakingPercentagePenaltyUpdated(
 export function handleStakingDurationPenaltyUpdated(
   event: StakingDurationPenaltyUpdated
 ): void {
-  const distributorId = event.transaction.to;
+  const distributorId = event.address;
   if (!distributorId) {
     throw new Error("Could not determine distributorId");
   }
